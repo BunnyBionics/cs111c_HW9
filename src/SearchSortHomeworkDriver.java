@@ -5,14 +5,43 @@ import java.util.Arrays;
 public class SearchSortHomeworkDriver {
 
 	public static double sortedness(Comparable[] array) {
-		// YOUR CODE HERE 
-		return 0; // placeholder so the code compiles: replace with your own code
+		if (array.length < 2) {
+			return 1;
+		}
+		int correct = 0;
+		for (int i = 0; i < array.length -1; i++) {
+			if (array[i].compareTo(array[i + 1]) <= 0) {
+				correct++;
+			}
+		}
+		return correct / (double) (array.length - 1);
 	}
 	
 	public static double sortedness(Node<Comparable> node) {
-		// YOUR CODE HERE 
-		// NOTE: If you want to use a local Node variable, declare it as: Node<Comparable> temp 
-		return 0; // placeholder so the code compiles: replace with your own code
+		if (node == null || node.next == null) {
+			return 1;
+		}
+
+		int correct = sortednessCorrect(node);
+		int stack = sortednessStack(node);
+		return (double) correct / stack;
+	}
+
+	private static int sortednessCorrect(Node<Comparable> node) {
+		if (node.next == null) {
+			return 0;
+		}
+
+		int correct = (node.data.compareTo(node.next.data) <= 0) ? 1 : 0;
+		return  correct + sortednessCorrect(node.next);
+	}
+
+	private static int sortednessStack(Node<Comparable> node) {
+		if (node.next == null) {
+			return 0;
+		}
+
+		return 1 + sortednessStack(node.next);
 	}
 
 	private static boolean allTestsPassed = true;
